@@ -1,0 +1,161 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    background-color: #23282C;
+    padding: 50px 100px 30px 20px;
+    margin: 20px 0;
+    width: 800px;
+    border-radius: .3rem;
+}
+
+.form-logo{
+    display: flex;
+    margin: 1rem 0;
+    justify-content: center;
+}
+
+.form-logo img{
+   width: 150px;
+   object-fit: cover;
+   height: 150px;
+}
+
+.success .form{
+    padding: 20px 100px 30px 20px;
+}
+
+.success .form h3{
+   color: #fff;
+   font-size: 26px;
+   font-weight: 400;
+}
+
+.success .form a{
+    text-decoration: none;
+    font-weight: 400;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: .7rem 2rem;
+    border-radius: .3rem;
+}
+
+
+.form-header h3 {
+    font-size: 22px;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.form-header p {
+    display: inline-block;
+    color: #9b326c;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* .container-form{
+    background-color: white;
+    box-shadow: 2px 2px 10px #ddd;
+    z-index: 0;
+    border-radius: 5px;
+    display: flex;
+    width: 600px; 
+    padding: 15px 15px 45px 15px;
+} */
+
+.form .form-name {
+    display: flex;
+    justify-content: center;
+    /* background-color: aqua; */
+    width: 100%;
+    margin: 1rem 0;
+}
+
+.form .form-name div {
+    /* margin: 0 1%; */
+    width: 48%;
+}
+
+.form-name .right {
+    margin-left: 2%;
+}
+
+.form-name .left {
+    margin-right: 2%;
+}
+
+input[type=submit] {
+    margin-top: 20px;
+    background-color: #f9ac08;
+    font-weight: bold;
+}
+
+.form-name input {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    /* box-shadow: 1.5px 1.5px 10px #ddd; */
+    border-radius: 3px;
+    /* height: 35px; */
+}
+
+.form-name select,
+.street select {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    /* box-shadow: 2px 2px 10px #ddd; */
+    border-radius: 3px;
+    height: 35px;
+}
+
+.form-body label {
+    display: none;
+    text-align: left !important;
+    color: #fff;
+    margin: .9rem 0 0 2%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* .reg div{
+    width: 100% ;
+} */
+
+input:focus {
+    outline: none;
+}
+
+.signup-inputs input {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    /* box-shadow: 1.5px 1.5px 10px #ddd; */
+    border-radius: 3px;
+    height: 35px;
+}
+
+@media screen and (max-width: 430px) {
+    .form {
+        padding: 50px 14px;
+        width: 100%;
+    }
+
+    .container-form {
+        margin-top: 5rem !important;
+        top: 70%;
+    }
+
+}

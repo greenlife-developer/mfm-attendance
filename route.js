@@ -10,7 +10,7 @@ const pdf = require("html-pdf");
 
 const pdfTemplate = require("./documents");
 
-var regSlip = []
+var regSlip = ""
 
 const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
@@ -53,16 +53,13 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
   router.post("/get-phone", (req, res) => {
     const phone = req.body.phone;
-    regSlip.push(phone)
+    regSlip = phone
+
+    console.log("regSlip",regSlip[0])
+
     if (phone) {
       res.redirect("/register?phone=" + phone);
     }
-  });
-
-  console.log("regSlip",regSlip)
-
-  router.get("/download", (req, res) => {
-    res.sendFile(`${__dirname}/result.pdf`);
   });
 
   // router.get("/register", (req, res) => {
@@ -76,33 +73,45 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const name = req.body.firstName + " " + req.body.lastName;
     const data = { ...req.body, name };
 
-    console.log(req.body);
-    pdf.create(pdfTemplate(data), {}).toFile("result.pdf", (err) => {
-      if (err) {
-        res.send(Promise.reject());
-      }
-
-      database.collection("MfmRegistration").insertOne(
-        {
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          email: req.body.email,
-          phone: req.body.phone,
-          address: req.body.address,
-          date: req.body.date,
-          gender: req.body.gender,
-          maritalStatus: req.body.maritalStatus,
-          position: req.body.position,
-          mode: req.body.mode,
-          region: req.body.region,
-          program: req.body.program,
-        },
-        (err, data) => {
-          res.send(Promise.resolve());
-          // res.redirect("/success?message=registered");
+    if(regSlip[0]){
+      pdf.create(pdfTemplate(data), {}).toFile(regSlip[0]+".pdf", (err) => {
+        if (err) {
+          res.send(Promise.reject());
         }
-      );
-    });
+  
+        database.collection("MfmRegistration").insertOne(
+          {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+            phone: req.body.phone,
+            address: req.body.address,
+            date: req.body.date,
+            gender: req.body.gender,
+            maritalStatus: req.body.maritalStatus,
+            position: req.body.position,
+            mode: req.body.mode,
+            region: req.body.region,
+            program: req.body.program,
+          },
+          (err, data) => {
+            res.send(Promise.resolve());
+            // res.redirect("/success?message=registered");
+          }
+        );
+      });
+    }
+
+    // console.log(req.body);
+    
+  });
+
+  console.log("regSlip",regSlip)
+
+  router.get("/download", (req, res) => {
+    if(regSlip[0]){
+      res.sendFile(`${__dirname}/${regSlip[0]}.pdf`);
+    }
   });
 
   // router.get("/success", (req, res) => {

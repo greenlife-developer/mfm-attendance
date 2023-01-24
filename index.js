@@ -34,14 +34,23 @@ app.use(
   })
 );
 
-app.use('/', require("./routes/route"));
+app.use('/', require("./route"));
 
-app.get('/download', (req, res) => {
-  const pdfBlob = new Blob([res.body], { type: 'application/pdf' });
-  saveAs(pdfBlob, 'newPdf.pdf');
-  
-  res.sendFile(`${__dirname}/result.pdf`)
-})
+// --------------------------deployment------------------------------
+
+if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+
+  app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
+
+// --------------------------deployment------------------------------
 
 
 const PORT = process.env.PORT || 8080;

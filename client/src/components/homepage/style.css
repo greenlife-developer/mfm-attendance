@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Uchen&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+p,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0 ;
+}
+
+a{
+  text-decoration: none;
+}
+
+body {
+  padding: 0;
+  /* font-family: 'Uchen', serif !important; */
+  margin: 0;
+  /* background-color: yellow; */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.first-page{
+  display: flex;
+  text-align: left;
+  justify-content: start;
+  
+}
+
+.first-page .navigation{
+  display: flex;
+  margin: 5rem 0;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.first-page .home{
+  /* background-color: red; */
+  display: flex;
+  justify-content: center;
+}
+
+.first-page .big-logo{
+  background: #23282C;
+  height: 450px;
+  border-right: 1px solid #fff;
+  border-top-left-radius: .3rem;
+  border-bottom-left-radius: .3rem;
+  width: 400px;
+  padding: 60px 40px;
+}
+
+.first-page .big-logo h3{
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.first-page .big-logo p{
+  display: inline-block;
+  color: #9b326c;
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.first-page .big-logo input{
+  padding: 7px 15px;
+  width: 300px;
+  border: none;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.first-page .big-logo input:focus{
+  outline: none;
+  border: none;
+}
+
+.first-page .big-logo button{
+  padding: 5px;
+  border: none;
+  width: 100px;
+}
+
+.first-page .phone-container{
+  background-color: #23282C;
+  display: flex;
+  border-top-right-radius: .3rem;
+  border-bottom-right-radius: .3rem;
+  justify-content: center;
+  align-items: center;
+  width: 350px;
+}
+
+.first-page .phone-items img{
+  width: 300px;
+  height: 306px;
+  object-fit: cover;
+}
+
+
+.first-page .form{
+  background-color: #23282C;
+  display: flex;
+  /* height: 100vh; */
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+
+
+@media screen and (max-width: 430px) {
+
+
+  .first-page .home{
+    /* background-color: red; */
+    flex-direction: column;
+  }
+
+  .first-page .big-logo{
+    width: 100%;
+    border-radius: .3rem;
+  }
+
+  .first-page .phone-container{
+    width: 100%;
+    margin-top: 2rem;
+    border-radius: .3rem;
+    height: 400px;
+  }
+
+
+}

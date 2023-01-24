@@ -108,7 +108,7 @@ export default function Register() {
             </div>
             <div class="form-name">
               <div class="left">
-                <label htmlFor="first name">First Name</label>0{" "}
+                {/* <label htmlFor="first name">First Name</label>0{" "} */}
                 <input
                   onChange={handleChange}
                   type="text"
@@ -117,7 +117,7 @@ export default function Register() {
                 />
               </div>
               <div class="right">
-                <label htmlFor="style">Last Name</label>
+                {/* <label htmlFor="style">Last Name</label> */}
                 <input
                   onChange={handleChange}
                   type="text"
@@ -129,7 +129,7 @@ export default function Register() {
             <div class="signup-inputs">
               <div class="form-name">
                 <div class="left">
-                  <label htmlFor="measurement">Phone Number</label>
+                  {/* <label htmlFor="measurement">Phone Number</label> */}
                   <input
                     type="text"
                     onChange={handleChange}
@@ -139,7 +139,7 @@ export default function Register() {
                   />
                 </div>
                 <div class="right">
-                  <label htmlFor="fabric">Email</label>
+                  {/* <label htmlFor="fabric">Email</label> */}
                   <input
                     onChange={handleChange}
                     type="email"
@@ -150,7 +150,7 @@ export default function Register() {
                 </div>
               </div>
               <div>
-                <label htmlFor="number">Address</label>
+                {/* <label htmlFor="number">Address</label> */}
                 <input
                   onChange={handleChange}
                   type="text"
@@ -160,7 +160,7 @@ export default function Register() {
               </div>
               <div class="form-name">
                 <div class="left">
-                  <label htmlFor="state">Date</label>
+                  {/* <label htmlFor="state">Date</label> */}
                   <input
                     onChange={handleChange}
                     type="date"
@@ -169,7 +169,7 @@ export default function Register() {
                   />
                 </div>
                 <div class="right">
-                  <label htmlFor="gender">Gender</label>
+                  {/* <label htmlFor="gender">Gender</label> */}
                   <select onChange={handleChange} class="style" name="gender">
                     <option value="">Gender</option>
                     <option value="male">Male</option>
@@ -179,7 +179,7 @@ export default function Register() {
               </div>
               <div class="form-name">
                 <div class="left">
-                  <label htmlFor="state">Marital Status</label>
+                  {/* <label htmlFor="state">Marital Status</label> */}
                   <select
                     onChange={handleChange}
                     class="style"
@@ -191,7 +191,7 @@ export default function Register() {
                   </select>
                 </div>
                 <div class="right">
-                  <label htmlFor="city">Position/Title</label>
+                  {/* <label htmlFor="city">Position/Title</label> */}
                   <select onChange={handleChange} class="style" name="position">
                     <option value="">Position/Title</option>
                     <option value="Group/House Leader">
@@ -207,7 +207,7 @@ export default function Register() {
               </div>
               <div class="form-name">
                 <div class="left">
-                  <label htmlFor="state">Mode</label>
+                  {/* <label htmlFor="state">Mode</label> */}
                   <select onChange={handleChange} class="style" name="mode">
                     <option value="">Mode</option>
                     <option value="full_time">Full Time</option>
@@ -215,7 +215,7 @@ export default function Register() {
                   </select>
                 </div>
                 <div class="right">
-                  <label htmlFor="city">Region</label>
+                  {/* <label htmlFor="city">Region</label> */}
                   <select onChange={handleChange} class="style" name="region">
                     <option value="">Region</option>
                     <option value="SW35 OKE-ADO - Mega Region">
@@ -235,7 +235,7 @@ export default function Register() {
                 </div>
               </div>
               <div class="street">
-                <label htmlFor="Program">Select Program to Attend</label>
+                {/* <label htmlFor="Program">Select Program to Attend</label> */}
                 <select onChange={handleChange} class="style" name="program">
                   <option value="">Select Program to Attend</option>
                   <option value="SOLEMN ASSEMBLY WITH DR. DK OLUKOYA">

@@ -45,16 +45,16 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   }
   database = client.db("Mfm_Attendance");
 
-  router.get("/", (req, res) => {
-    res.json({
-      name: "Opeyemi",
-    });
-  });
+  // router.get("/", (req, res) => {
+  //   res.json({
+  //     name: "Opeyemi",
+  //   });
+  // });
 
   router.post("/get-phone", (req, res) => {
     const phone = req.body.phone;
     regSlip.push(phone)
-    if (phone !== "") {
+    if (phone) {
       res.redirect("/register?phone=" + phone);
     }
   });
@@ -105,14 +105,14 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     });
   });
 
-  router.get("/success", (req, res) => {
-    console.log(req.query);
+  // router.get("/success", (req, res) => {
+  //   console.log(req.query);
 
-    const query = req.query;
-    res.render("success", {
-      message: query.message,
-    });
-  });
+  //   const query = req.query;
+  //   res.render("success", {
+  //     message: query.message,
+  //   });
+  // });
 
   router.get("/logout", (req, res) => {
     req.session = null;

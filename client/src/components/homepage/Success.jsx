@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import logo from "../images/logo.png"
 import { saveAs } from "file-saver";
 
 export default function Success() {
@@ -11,7 +12,7 @@ export default function Success() {
     //   })
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: "application/pdf" });
-        saveAs(pdfBlob, "newPdf.pdf");
+        saveAs(pdfBlob, "registration_slip.pdf");
       });
   };
 
@@ -19,7 +20,7 @@ export default function Success() {
     <div class="form-body success">
       <div class="form-wrapper">
         <div class="form-logo">
-          <img src="/public/images/logo.png" alt="" />
+          <img src={logo} alt="" />
         </div>
         <div class="form">
           <h3>

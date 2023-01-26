@@ -9,7 +9,7 @@ const router = express.Router();
 const pdf = require("html-pdf");
 
 const pdfTemplate = require("./documents");
-const { uploadFile, getFileStream } = require("./s3bucket");
+// const { uploadFile, getFileStream } = require("./s3bucket");
 
 
 var regSlip = ""
@@ -81,7 +81,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
           res.send(Promise.reject());
         }
 
-        const result = await uploadFile(regSlip[0] + ".pdf");
+        // const result = await uploadFile(regSlip[0] + ".pdf");
 
 
         database.collection("MfmRegistration").insertOne(

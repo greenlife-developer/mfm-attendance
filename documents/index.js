@@ -6,7 +6,7 @@ module.exports = ({ name, phone, region, position, date }) => {
    
    <head>
        <meta charset="utf-8">
-       <title>PDF Result Template</title>
+       <title>Registration Slip</title>
        <style>
            .invoice-box {
                max-width: 800px;

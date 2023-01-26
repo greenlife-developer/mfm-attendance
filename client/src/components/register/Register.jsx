@@ -103,7 +103,7 @@ export default function Register() {
         <form onSubmit={handleSubmit}>
           <div class="form">
             <div class="form-header">
-              <h3>New Ibadan Mega Region</h3>
+              <h3>Oke Ado Mega Region Axis</h3>
               <p>Mobile Number Sample: 08035555800</p>
             </div>
             <div class="form-name">
@@ -200,8 +200,9 @@ export default function Register() {
                     <option value="pastor">Pastor</option>
                     <option value="overseer">Overseer</option>
                     <option value="minister">Ministers</option>
-                    <option value="pastors_wife">Pastor's wife</option>
-                    <option value="house_leader">House Leader</option>
+                    <option value="pastor's wife">Pastor's wife</option>
+                    <option value="house leader">House Leader</option>
+                    <option value="Worker">Worker</option>
                   </select>
                 </div>
               </div>
@@ -238,11 +239,8 @@ export default function Register() {
                 {/* <label htmlFor="Program">Select Program to Attend</label> */}
                 <select onChange={handleChange} class="style" name="program">
                   <option value="">Select Program to Attend</option>
-                  <option value="SOLEMN ASSEMBLY WITH DR. DK OLUKOYA">
-                    SOLEMN ASSEMBLY WITH DR. DK OLUKOYA
-                  </option>
-                  <option value="SKILLS AND EMPOWERMENT PROGRAM">
-                    SKILLS AND EMPOWERMENT PROGRAM
+                  <option value="RE-IGNITE RETREAT BY MRO">
+                    RE-IGNITE RETREAT BY MRO
                   </option>
                 </select>
               </div>

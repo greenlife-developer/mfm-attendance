@@ -23,7 +23,7 @@ export default function Home() {
             <div class="container home">
                 <div class="big-logo">
                     <form action="/get-phone" method="post">
-                        <h3>New Ibadan Mega Region</h3>
+                        <h3>Oke-Ado Mega Region Axis</h3>
                         <p>Mobile Number Sample: 08035555800</p>
                         <input type="phone" name="phone" placeholder="Enter Your phone e.g: 08035555800"
                             required /><br />

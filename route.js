@@ -9,6 +9,8 @@ const router = express.Router();
 const pdf = require("html-pdf");
 
 const pdfTemplate = require("./documents");
+const { uploadFile, getFileStream } = require("./s3bucket");
+
 
 var regSlip = ""
 
@@ -55,7 +57,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const phone = req.body.phone;
     regSlip = phone
 
-    console.log("regSlip",regSlip[0])
+    console.log("regSlip", regSlip[0])
 
     if (phone) {
       res.redirect("/register?phone=" + phone);
@@ -73,12 +75,15 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const name = req.body.firstName + " " + req.body.lastName;
     const data = { ...req.body, name };
 
-    if(regSlip[0]){
-      pdf.create(pdfTemplate(data), {}).toFile(regSlip[0]+".pdf", (err) => {
+    if (regSlip[0]) {
+      pdf.create(pdfTemplate(data), {}).toFile(regSlip[0] + ".pdf", async(err) => {
         if (err) {
           res.send(Promise.reject());
         }
-  
+
+        const result = await uploadFile(regSlip[0] + ".pdf");
+
+
         database.collection("MfmRegistration").insertOne(
           {
             firstName: req.body.firstName,
@@ -103,13 +108,13 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     }
 
     // console.log(req.body);
-    
+
   });
 
-  console.log("regSlip",regSlip)
+  console.log("regSlip", regSlip)
 
   router.get("/download", (req, res) => {
-    if(regSlip[0]){
+    if (regSlip[0]) {
       res.sendFile(`${__dirname}/${regSlip[0]}.pdf`);
     }
   });

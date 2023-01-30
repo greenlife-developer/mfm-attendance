@@ -82,7 +82,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
             res.send(Promise.reject());
           }
 
-          const result = await uploadFile(regSlip + ".pdf");
+          await uploadFile(regSlip + ".pdf");
           // console.log(result);
 
           database.collection("MfmRegistration").insertOne(
@@ -113,6 +113,8 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
   router.get("/download/:phone", (req, res) => {
     const key = req.params.phone + ".pdf";
+
+    console.log(key)
 
     const readStream = getFileStream(key);
 

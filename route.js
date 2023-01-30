@@ -82,7 +82,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
             res.send(Promise.reject());
           }
 
-          await uploadFile(regSlip + ".pdf");
+          const result = await uploadFile(regSlip + ".pdf");
           // console.log(result);
 
           database.collection("MfmRegistration").insertOne(

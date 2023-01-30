@@ -20,7 +20,7 @@ const s3 = new AWS.S3({
 function uploadFile(file){
 
   console.log(file)
-  const fileStream = fs.createReadStream(file.)
+  const fileStream = fs.createReadStream(file)
  
   const params = {
     Bucket: "icon-path-bucket",

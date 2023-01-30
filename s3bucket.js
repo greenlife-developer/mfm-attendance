@@ -9,7 +9,7 @@ const secretAccessKey = process.env.AWS_SECRET_KEY;
 
 
 const s3 = new AWS.S3({
-  // AWS_SDK_LOAD_CONFIG=1,
+  AWS_SDK_LOAD_CONFIG:1,
   region: "us-east-2",
   accessKeyId: "AKIASJKPO373UCQOEC4V",
   secretAccessKey: "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", 

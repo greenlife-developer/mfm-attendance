@@ -129,3 +129,20 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 });
 
 module.exports = router;
+
+
+
+
+// {
+// 	"Version": "2012-10-17",
+// 	"Id": "Policy1623336260097",
+// 	"Statement": [
+// 		{
+// 			"Sid": "Stmt1623336252847",
+// 			"Effect": "Allow",
+// 			"Principal": "*",
+// 			"Action": "s3:GetObject",
+// 			"Resource": "arn:aws:s3:::icon-path-bucket/*"
+// 		}
+// 	]
+// }

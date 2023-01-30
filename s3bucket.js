@@ -19,12 +19,12 @@ const s3 = new AWS.S3({
 // Uploads to s3 
 function uploadFile(file){
 
-  console.log(file)
-  const fileStream = fs.createReadStream(file.path)
- 
+  console.log("s3 upload",file)
+  // const fileStream = fs.createReadStream(file.path)
+
   // const params = {
   //   Bucket: "icon-path-bucket",
-  //   Body: fileStream, 
+  //   Body: fileStream,
   //   Key: file.filename,
   //   contentType: "image/jpg"
   // }

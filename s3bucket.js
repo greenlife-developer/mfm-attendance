@@ -1,7 +1,4 @@
-require("dotenv").config({
-  path: "./config_files/.env",
-});
-
+require('dotenv').config();
 const fs = require('fs');
 const AWS = require('aws-sdk');
 
@@ -12,22 +9,22 @@ const secretAccessKey = process.env.AWS_SECRET_KEY;
 
 
 const s3 = new AWS.S3({
-  AWS_SDK_LOAD_CONFIG: 1,
-  region: region,
-  accessKeyId: accessKeyId,
-  secretAccessKey: secretAccessKey,
+  // AWS_SDK_LOAD_CONFIG=1,
+  region: "us-east-2",
+  accessKeyId: "AKIASJKPO373UCQOEC4V",
+  secretAccessKey: "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", 
 })
 
 
 // Uploads to s3 
-function uploadFile(file) {
+function uploadFile(file){
 
-  // console.log("s3 upload", file)
-  const fileStream = fs.createReadStream(file)
-
+  console.log(file)
+  const fileStream = fs.createReadStream(file.)
+ 
   const params = {
-    Bucket: BucketName,
-    Body: fileStream,
+    Bucket: "icon-path-bucket",
+    Body: fileStream, 
     Key: file,
     contentType: "application/pdf"
   }
@@ -39,12 +36,12 @@ exports.uploadFile = uploadFile
 
 
 
-
+ 
 // Downloads from s3 
 function getFileStream(key) {
   const downloadParams = {
-    Key: key,
-    Bucket: "icon-path-bucket"
+  Key: key,
+  Bucket: "icon-path-bucket"
   }
 
   return s3.getObject(downloadParams).createReadStream();

@@ -5,14 +5,12 @@ import { saveAs } from "file-saver";
 
 export default function Success() {
   const handleDownload = () => {
+    const phone = localStorage.getItem("phone")
     axios
-      .get("/download", { responseType: "blob" })
-    //   .then((res) => {
-    //     res.json();
-    //   })
+      .get(`/download/${phone}`, { responseType: "blob" })
       .then((res) => {
         const pdfBlob = new Blob([res.data], { type: "application/pdf" });
-        saveAs(pdfBlob, "registration_slip.pdf");
+        saveAs(pdfBlob, `${phone}.pdf`);
       });
   };
 

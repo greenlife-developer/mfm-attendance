@@ -11,8 +11,7 @@ const pdf = require("html-pdf");
 const pdfTemplate = require("./documents");
 const { uploadFile, getFileStream } = require("./s3bucket");
 
-
-var regSlip = ""
+var regSlip = "";
 
 const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
@@ -55,9 +54,9 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
   router.post("/get-phone", (req, res) => {
     const phone = req.body.phone;
-    regSlip = phone
+    regSlip = phone;
 
-    console.log("regSlip", regSlip)
+    // console.log("regSlip", regSlip);
 
     if (phone) {
       res.redirect("/register?phone=" + phone);
@@ -76,55 +75,50 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const data = { ...req.body, name };
 
     if (regSlip) {
-      pdf.create(pdfTemplate(data), {}).toFile(regSlip + ".pdf", async(err) => {
-        if (err) {
-          res.send(Promise.reject());
-        }
-
-        const result = await uploadFile(regSlip + ".pdf");
-
-
-        database.collection("MfmRegistration").insertOne(
-          {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            phone: req.body.phone,
-            address: req.body.address,
-            date: req.body.date,
-            gender: req.body.gender,
-            maritalStatus: req.body.maritalStatus,
-            position: req.body.position,
-            mode: req.body.mode,
-            region: req.body.region,
-            program: req.body.program,
-          },
-          (err, data) => {
-            res.send(Promise.resolve());
-            // res.redirect("/success?message=registered");
+      pdf
+        .create(pdfTemplate(data), {})
+        .toFile(regSlip + ".pdf", async (err) => {
+          if (err) {
+            res.send(Promise.reject());
           }
-        );
-      });
-    }
 
+          const result = await uploadFile(regSlip + ".pdf");
+          // console.log(result);
+
+          database.collection("MfmRegistration").insertOne(
+            {
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              email: req.body.email,
+              phone: req.body.phone,
+              address: req.body.address,
+              date: req.body.date,
+              gender: req.body.gender,
+              maritalStatus: req.body.maritalStatus,
+              position: req.body.position,
+              mode: req.body.mode,
+              region: req.body.region,
+              program: req.body.program,
+            },
+            (err, data) => {
+              res.send(Promise.resolve());
+              // res.redirect("/success?message=registered");
+            }
+          );
+        });
+    }
   });
 
-  console.log("regSlip", regSlip)
+  // console.log("regSlip", regSlip);
 
-  router.get("/download", (req, res) => {
-    if (regSlip) {
-      res.sendFile(`${__dirname}/${regSlip}.pdf`);
-    }
+  router.get("/download/:phone", (req, res) => {
+    const key = req.params.phone + ".pdf";
+
+    const readStream = getFileStream(key);
+
+    res.attachment(key);
+    readStream.pipe(res);
   });
-
-  // router.get("/success", (req, res) => {
-  //   console.log(req.query);
-
-  //   const query = req.query;
-  //   res.render("success", {
-  //     message: query.message,
-  //   });
-  // });
 
   router.get("/logout", (req, res) => {
     req.session = null;

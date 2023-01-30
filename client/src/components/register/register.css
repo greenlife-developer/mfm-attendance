@@ -14,6 +14,7 @@ body {
 
 .form {
   background: #77125e;
+  /* background-color: #ddd; */
   padding: 50px 100px 30px 20px;
   text-align: left;
   margin: 20px 0;
@@ -163,15 +164,22 @@ input:focus {
     top: 70%;
   }
 
+  .success{
+    padding: 1rem;
+    width: 100%;
+  }
+
   .success .form {
     padding: 20px;
+    /* max-width: 95%; */
+    /* margin: 1rem; */
     /* display: flex;
         justify-content: center; */
   }
 
   .success .form h3 {
     color: #fff;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 400;
   }
 }

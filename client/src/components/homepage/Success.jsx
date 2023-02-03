@@ -4,6 +4,9 @@ import logo from "../images/logo.png"
 import { saveAs } from "file-saver";
 
 export default function Success() {
+
+    const phone = localStorage.getItem("phone")
+
   const handleDownload = () => {
     const phone = localStorage.getItem("phone")
     axios

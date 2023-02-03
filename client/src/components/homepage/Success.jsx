@@ -1,20 +1,16 @@
 import React from "react";
 import axios from "axios";
-import logo from "../images/logo.png"
+import logo from "../images/logo.png";
 import { saveAs } from "file-saver";
 
 export default function Success() {
-
-    const phone = localStorage.getItem("phone")
+  const phone = localStorage.getItem("phone");
 
   const handleDownload = () => {
-    const phone = localStorage.getItem("phone")
-    axios
-      .get(`/download/${phone}`, { responseType: "blob" })
-      .then((res) => {
-        const pdfBlob = new Blob([res.data], { type: "application/pdf" });
-        saveAs(pdfBlob, `${phone}.pdf`);
-      });
+    axios.get(`/download/${phone}`, { responseType: "blob" }).then((res) => {
+      const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+      saveAs(pdfBlob, `${phone}.pdf`);
+    });
   };
 
   return (
@@ -31,7 +27,9 @@ export default function Success() {
           <br />
           <br />
           <a onClick={handleDownload}>
-            Download Slip
+            <a href={`https://icon-path-bucket.s3.us-east-2.amazonaws.com/${phone}.pdf`}>
+              Download Slip
+            </a>
           </a>
         </div>
       </div>

@@ -5,6 +5,7 @@ require("dotenv").config({
 const express = require("express");
 
 const router = express.Router();
+const pRouter = require('express-promise-router')();
 
 const pdf = require("html-pdf");
 
@@ -70,46 +71,41 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   //     })
   // })
 
-  router.post("/register", (req, res, next) => {
+  pRouter.post("/register", (req, res, next) => {
     const name = req.body.firstName + " " + req.body.lastName;
     const data = { ...req.body, name };
 
     if (regSlip) {
       pdf
         .create(pdfTemplate(data), {})
-        .toFile(regSlip + ".pdf", async (err) => {
+        .toFile(regSlip + ".pdf", (err) => {
           if (err) {
             res.send(Promise.reject());
           }
+          const result = uploadFile(regSlip + ".pdf").catch((err) => { console.log(err) });
+          console.log(result.Location);
 
-          try {
-            const result = await uploadFile(regSlip + ".pdf").catch((err) => { console.log(err) });
-            console.log(result.Location);
-
-            database.collection("MfmRegistration").insertOne(
-              {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                phone: req.body.phone,
-                address: req.body.address,
-                date: req.body.date,
-                gender: req.body.gender,
-                maritalStatus: req.body.maritalStatus,
-                position: req.body.position,
-                mode: req.body.mode,
-                region: req.body.region,
-                filePath: `/download/${result.key}`,
-                program: req.body.program,
-              },
-              (err, data) => {
-                res.send(Promise.resolve());
-                // res.redirect("/success?message=registered");
-              }
-            );
-          } catch (err) {
-            next(err);
-          }
+          database.collection("MfmRegistration").insertOne(
+            {
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              email: req.body.email,
+              phone: req.body.phone,
+              address: req.body.address,
+              date: req.body.date,
+              gender: req.body.gender,
+              maritalStatus: req.body.maritalStatus,
+              position: req.body.position,
+              mode: req.body.mode,
+              region: req.body.region,
+              filePath: `/download/${result.key}`,
+              program: req.body.program,
+            },
+            (err, data) => {
+              res.send(Promise.resolve());
+              // res.redirect("/success?message=registered");
+            }
+          );
 
         });
     }

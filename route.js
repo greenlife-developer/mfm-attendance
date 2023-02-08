@@ -82,7 +82,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
             res.send(Promise.reject());
           }
 
-          const result = await uploadFile(regSlip + ".pdf");
+          const result = await uploadFile(regSlip + ".pdf").catch((err) => { console.log(err) });
           console.log(result.Location);
 
           database.collection("MfmRegistration").insertOne(
@@ -100,7 +100,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
               region: req.body.region,
               filePath: `/download/${result.key}`,
               program: req.body.program,
-            }, 
+            },
             (err, data) => {
               res.send(Promise.resolve());
               // res.redirect("/success?message=registered");
@@ -127,6 +127,8 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     req.session = null;
     res.redirect("/");
   });
+
+
 });
 
 module.exports = router;

@@ -70,47 +70,41 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   //     })
   // })
 
-  router.post("/register", (req, res, next) => {
+  router.post("/register", async (req, res, next) => {
     const name = req.body.firstName + " " + req.body.lastName;
     const data = { ...req.body, name };
 
     if (regSlip) {
+      const result = await uploadFile(regSlip + ".pdf");
+      console.log(result.Location);
       pdf
         .create(pdfTemplate(data), {})
-        .toFile(regSlip + ".pdf", async (err) => {
+        .toFile(regSlip + ".pdf", (err) => {
           if (err) {
             res.send(Promise.reject());
           }
 
-          try {
-            const result = await uploadFile(regSlip + ".pdf");
-            console.log(result.Location);
-
-            database.collection("MfmRegistration").insertOne(
-              {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                phone: req.body.phone,
-                address: req.body.address,
-                date: req.body.date,
-                gender: req.body.gender,
-                maritalStatus: req.body.maritalStatus,
-                position: req.body.position,
-                mode: req.body.mode,
-                region: req.body.region,
-                filePath: `/download/${result.key}`,
-                program: req.body.program,
-              },
-              (err, data) => {
-                res.send(Promise.resolve());
-                // res.redirect("/success?message=registered");
-              }
-            );
-          } catch (err) {
-            console.log(err)
-            // next(err);
-          }
+          database.collection("MfmRegistration").insertOne(
+            {
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              email: req.body.email,
+              phone: req.body.phone,
+              address: req.body.address,
+              date: req.body.date,
+              gender: req.body.gender,
+              maritalStatus: req.body.maritalStatus,
+              position: req.body.position,
+              mode: req.body.mode,
+              region: req.body.region,
+              filePath: `/download/${result.key}`,
+              program: req.body.program,
+            },
+            (err, data) => {
+              res.send(Promise.resolve());
+              // res.redirect("/success?message=registered");
+            }
+          );
 
         });
     }

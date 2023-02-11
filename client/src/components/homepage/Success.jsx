@@ -27,9 +27,9 @@ export default function Success() {
           <br />
           <br />
           <a onClick={handleDownload}>
-            <a href={`https://icon-path-bucket.s3.us-east-2.amazonaws.com/${phone}.pdf`}>
+            {/* <a href={`https://icon-path-bucket.s3.us-east-2.amazonaws.com/${phone}.pdf`}> */}
               Download Slip
-            </a>
+            {/* </a> */}
           </a>
         </div>
       </div>

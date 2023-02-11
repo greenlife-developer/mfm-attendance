@@ -108,7 +108,8 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
               }
             );
           } catch (err) {
-            next(err);
+            console.log(err)
+            // next(err);
           }
 
         });

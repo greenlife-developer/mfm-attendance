@@ -78,10 +78,9 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
         if (err) {
           res.send(Promise.reject());
         }
-
         res.send(Promise.resolve());
 
-        await uploadFile(`${req.body.phone}.pdf`);
+        const result = await uploadFile(`${req.body.phone}.pdf`);
 
 
         database.collection("MfmRegistration").insertOne(

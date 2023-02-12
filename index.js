@@ -41,7 +41,7 @@ app.use(
     })
 );
 
-app.use('/', require("./route"));
+app.use('/', require("./routes/route"));
 
 // --------------------------deployment------------------------------
 

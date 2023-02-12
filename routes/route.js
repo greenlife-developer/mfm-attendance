@@ -81,6 +81,8 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
         const result = await uploadFile(`${req.body.phone}.pdf`);
         console.log("location", result.Location);
 
+        res.send(Promise.resolve());
+        
         database.collection("MfmRegistration").insertOne(
           {
             firstName: req.body.firstName,
@@ -98,7 +100,6 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
             program: req.body.program,
           },
           (err, data) => {
-            res.send(Promise.resolve());
             // res.redirect("/success?message=registered");
           }
         );

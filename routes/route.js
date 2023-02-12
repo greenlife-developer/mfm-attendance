@@ -11,7 +11,6 @@ const pdf = require("html-pdf");
 const pdfTemplate = require("../documents");
 const { uploadFile, getFileStream } = require("../s3bucket");
 
-var regSlip = "";
 
 const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
@@ -54,9 +53,6 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
   router.post("/get-phone", (req, res) => {
     const phone = req.body.phone;
-    regSlip = phone;
-
-    // console.log("regSlip", regSlip);
 
     if (phone) {
       res.redirect("/register?phone=" + phone);
@@ -73,15 +69,17 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   router.post("/register", (req, res, next) => {
     const name = req.body.firstName + " " + req.body.lastName;
     const data = { ...req.body, name };
+    console.log(req.body.phone)
 
+    if (req.body.phone) {
     pdf
       .create(pdfTemplate(data), {})
-      .toFile(req.body.phone + ".pdf", (err) => {
+      .toFile(`${req.body.phone}.pdf`, async (err) => {
         if (err) {
           res.send(Promise.reject());
         }
-        const result = uploadFile(req.body.phone + ".pdf");
-        console.log("location",result.Location);
+        const result = await uploadFile(`${req.body.phone}.pdf`);
+        console.log("location", result.Location);
 
         database.collection("MfmRegistration").insertOne(
           {
@@ -94,7 +92,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
             gender: req.body.gender,
             maritalStatus: req.body.maritalStatus,
             position: req.body.position,
-            mode: req.body.mode,
+            mode: req.body.mode, 
             region: req.body.region,
             filePath: `/download/${result.key}`,
             program: req.body.program,
@@ -106,9 +104,8 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
         );
 
       });
+    }
   });
-
-  // console.log("regSlip", regSlip);
 
   router.get("/download/:phone", (req, res) => {
     const key = req.params.phone + ".pdf";

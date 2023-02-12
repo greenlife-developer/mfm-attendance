@@ -12,10 +12,11 @@ export default function Register() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("phone");
 
+  const phone = query
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [date, setDate] = useState("");
   const [gender, setGender] = useState("");
@@ -36,9 +37,6 @@ export default function Register() {
     }
     if (name === "email") {
       setEmail(value)
-    }
-    if (name === "phone") {
-      setPhone(value)
     }
     if (name === "address") {
       setAddress(value)
@@ -87,6 +85,7 @@ export default function Register() {
     // console.log(phone)
 
     axios.post("/register", regForm).then((res) => {
+      console.log(res)
       redirect("/success?message="+phone);
     });
   };
@@ -135,8 +134,8 @@ export default function Register() {
                   {/* <label htmlFor="measurement">Phone Number</label> */}
                   <input
                     type="text"
-                    onChange={handleChange}
-                    value={query}
+                    // onChange={handleChange}
+                    value={phone}
                     name="phone"
                     placeholder="Phone Number"
                   />

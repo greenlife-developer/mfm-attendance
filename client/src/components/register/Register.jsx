@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import logo from "../images/logo.png";
 import { saveAs } from "file-saver";
 import "./register.css";
 import { useEffect } from "react";
@@ -99,7 +100,7 @@ export default function Register() {
     <div class="form-body">
       <div class="form-wrapper">
         <div class="form-logo">
-          <img src="/public/images/logo.png" alt="" />
+          <img src={logo} alt="" />
         </div>
         {/* action="/register" method="post"  */}
         <form onSubmit={handleSubmit}>

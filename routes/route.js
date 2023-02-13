@@ -11,6 +11,7 @@ const pdf = require("html-pdf");
 const pdfTemplate = require("../documents");
 const { uploadFile, getFileStream } = require("../s3bucket");
 
+const path = require("path");
 
 const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
@@ -74,14 +75,14 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     if (req.body.phone) {
     pdf
       .create(pdfTemplate(data), {})
-      .toFile(`${req.body.phone}.pdf`, async (err) => {
+      .toFile(`${path.join(__dirname, 'pdfdocuments/')}${req.body.phone}.pdf`, async (err) => {
         if (err) {
           res.send(Promise.reject());
         }
         res.send(Promise.resolve());
 
-        const result = await uploadFile(`${req.body.phone}.pdf`);
-
+        const result = await uploadFile(`${path.join(__dirname, 'pdfdocuments/')}${req.body.phone}.pdf`);
+        console.log(result.Location)
 
         database.collection("MfmRegistration").insertOne(
           {
@@ -109,7 +110,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   });
 
   router.get("/download/:phone", (req, res) => {
-    const key = req.params.phone + ".pdf";
+    const key = path.join(__dirname, 'pdfdocuments/') + req.params.phone + ".pdf";
 
     console.log(key)
 
@@ -119,7 +120,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     readStream.pipe(res);
   });
 
-  router.get("/logout", (req, res) => {
+  router.get("/logout", (req, res) => { 
     req.session = null;
     res.redirect("/");
   });

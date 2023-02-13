@@ -1,6 +1,10 @@
+
 module.exports = ({ name, phone, region, position, date }) => {
-   const today = new Date();
-   return `
+
+    // const logo = require("../public/images/logo")
+
+    const today = new Date();
+    return `
    <!doctype html>
    <html>
    
@@ -122,7 +126,7 @@ module.exports = ({ name, phone, region, position, date }) => {
    <body>
        <div class="invoice-box">
            <div class="logo">
-             <img src="/public/images/logo.png" alt="">
+             <img src="../public/images/logo" alt="">
            </div><br>
            <div class="church-name">
                <h1>

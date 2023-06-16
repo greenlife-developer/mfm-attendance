@@ -114,7 +114,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
     console.log(key)
 
-    const readStream = getFileStream(key);
+    const readStream = getFileStream(`${req.params.phone}.pdf`);
 
     res.attachment(key);
     readStream.pipe(res);

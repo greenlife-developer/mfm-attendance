@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import './App.css';
+// import './App.css';
 import Home from "./components/homepage/Home";
 import Success from "./components/homepage/Success";
 import Register from './components/register/Register';
+import Chat from './components/Chat';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </Router>
     </div>

@@ -123,6 +123,36 @@ body {
   color: #fff;
 }
 
+.chat{
+  /* background-color: #23282C; */
+  /* position: absolute; */
+}
+
+.chat-form{
+  position: fixed;
+  bottom: 0;
+  z-index: 999;
+}
+
+.messages{
+  /* position: absolute; */
+}
+
+.chat-form form input{
+  padding: 0 0 0 5px;
+  border: 1px solid #ddd;
+  margin: 0;
+}
+
+.chat-form form button{
+  padding: 5px 8px;
+  margin: 0;
+}
+
+.chat-form form{
+  display: flex;
+}
+
 
 
 @media screen and (max-width: 430px) {

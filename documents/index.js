@@ -137,7 +137,7 @@ module.exports = ({ name, phone, region, position, date }) => {
            </div><br><br>
            <table cellpadding="0" cellspacing="0">
                <tr class="item">
-                   <td>Name</td>
+                   <td>Name</td> 
                    <td>${name}</td>
                </tr>
                <tr class="item">

@@ -84,12 +84,12 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   //     })
   // })
 
-  router.post("/register", (req, res, next) => {
+  router.post("/register", async (req, res, next) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
     console.log(req.body.phone)
 
-    pdf.create(pdfTemplate(data)).toStream( async function (err, stream) {
+    await pdf.create(pdfTemplate(data)).toStream( async function (err, stream) {
       stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
       const params = {
         Bucket: "icon-path-bucket",

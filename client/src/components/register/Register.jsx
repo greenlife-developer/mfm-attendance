@@ -12,88 +12,7 @@ export default function Register() {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("phone");
 
-  const phone = query
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [date, setDate] = useState("");
-  const [gender, setGender] = useState("");
-  const [maritalStatus, setMaritalStatus] = useState("");
-  const [position, setPosition] = useState("");
-  const [mode, setMode] = useState("");
-  const [region, setRegion] = useState("");
-  const [program, setProgram] = useState("");
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    if (name === "fName") {
-      setFirstName(value)
-    }
-    if (name === "lName") {
-      setLastName(value)
-    }
-    if (name === "email") {
-      setEmail(value)
-    }
-    if (name === "address") {
-      setAddress(value)
-    }
-    if (name === "date") {
-      setDate(value)
-    }
-    if (name === "gender") {
-      setGender(value)
-    }
-    if (name === "marital_status") {
-      setMaritalStatus(value)
-    }
-    if (name === "position") {
-      setPosition(value)
-    }
-    if (name === "mode") {
-      setMode(value)
-    }
-    if (name === "region") {
-      setRegion(value)
-    }
-    if (name === "program") {
-      setProgram(value)
-    }
-  };
-
-  const regForm = {
-    firstName,
-    lastName,
-    email,
-    phone,
-    address,
-    date,
-    gender,
-    maritalStatus,
-    position,
-    mode,
-    region,
-    program,
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const phone = localStorage.getItem("phone")
-    // console.log(phone)
-
-    axios.post("/register", regForm).then((res) => {
-      console.log(res)
-      redirect("/success?message="+phone);
-    });
-  };
-
-  useEffect(() => {
-    const formSubmit = document.getElementById("formSubmit");
-    formSubmit.addEventListener("click", handleSubmit);
-  });
+  const phone = query;
 
   return (
     <div class="form-body">
@@ -101,8 +20,7 @@ export default function Register() {
         <div class="form-logo">
           <img src={logo} alt="" />
         </div>
-        {/* action="/register" method="post"  */}
-        <form onSubmit={handleSubmit}>
+        <form action="/api/register" method="POST">
           <div class="form">
             <div class="form-header">
               <h3>Oke Ado Mega Region Axis</h3>
@@ -111,21 +29,11 @@ export default function Register() {
             <div class="form-name">
               <div class="left">
                 {/* <label htmlFor="first name">First Name</label>0{" "} */}
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  name="fName"
-                  placeholder="First Name"
-                />
+                <input type="text" name="fName" placeholder="First Name" />
               </div>
               <div class="right">
                 {/* <label htmlFor="style">Last Name</label> */}
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  name="lName"
-                  placeholder="Last Name"
-                />
+                <input type="text" name="lName" placeholder="Last Name" />
               </div>
             </div>
             <div class="signup-inputs">
@@ -134,7 +42,6 @@ export default function Register() {
                   {/* <label htmlFor="measurement">Phone Number</label> */}
                   <input
                     type="text"
-                    // onChange={handleChange}
                     value={phone}
                     name="phone"
                     placeholder="Phone Number"
@@ -142,51 +49,31 @@ export default function Register() {
                 </div>
                 <div class="right">
                   {/* <label htmlFor="fabric">Email</label> */}
-                  <input
-                    onChange={handleChange}
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    id=""
-                  />
+                  <input type="email" name="email" placeholder="Email" id="" />
                 </div>
               </div>
               <div>
                 {/* <label htmlFor="number">Address</label> */}
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  name="address"
-                  placeholder="Address"
-                />
+                <input type="text" name="address" placeholder="Address" />
               </div>
               <div class="form-name">
                 <div class="left">
                   {/* <label htmlFor="state">Date</label> */}
-                  <input
-                    onChange={handleChange}
-                    type="date"
-                    name="date"
-                    id=""
-                  />
+                  <input type="date" name="date" id="" />
                 </div>
                 <div class="right">
                   {/* <label htmlFor="gender">Gender</label> */}
-                  <select onChange={handleChange} class="style" name="gender">
+                  <select class="style" name="gender">
                     <option value="">Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                  </select> 
+                  </select>
                 </div>
               </div>
               <div class="form-name">
                 <div class="left">
                   {/* <label htmlFor="state">Marital Status</label> */}
-                  <select
-                    onChange={handleChange}
-                    class="style"
-                    name="narital_status"
-                  >
+                  <select class="style" name="marital_status">
                     <option value="">Marital status</option>
                     <option value="married">Married</option>
                     <option value="single">Single</option>
@@ -194,7 +81,7 @@ export default function Register() {
                 </div>
                 <div class="right">
                   {/* <label htmlFor="city">Position/Title</label> */}
-                  <select onChange={handleChange} class="style" name="position">
+                  <select class="style" name="position">
                     <option value="">Position/Title</option>
                     <option value="Group/House Leader">
                       Group/House Leader
@@ -211,7 +98,7 @@ export default function Register() {
               <div class="form-name">
                 <div class="left">
                   {/* <label htmlFor="state">Mode</label> */}
-                  <select onChange={handleChange} class="style" name="mode">
+                  <select class="style" name="mode">
                     <option value="">Mode</option>
                     <option value="full_time">Full Time</option>
                     <option value="part_time">Part Time</option>
@@ -219,7 +106,7 @@ export default function Register() {
                 </div>
                 <div class="right">
                   {/* <label htmlFor="city">Region</label> */}
-                  <select onChange={handleChange} class="style" name="region">
+                  <select class="style" name="region">
                     <option value="">Region</option>
                     <option value="SW35 OKE-ADO - Mega Region">
                       SW35 OKE-ADO - Mega Region
@@ -239,7 +126,7 @@ export default function Register() {
               </div>
               <div class="street">
                 {/* <label htmlFor="Program">Select Program to Attend</label> */}
-                <select onChange={handleChange} class="style" name="program">
+                <select class="style" name="program">
                   <option value="">Select Program to Attend</option>
                   <option value="RE-IGNITE RETREAT BY MRO">
                     RE-IGNITE RETREAT BY MRO
@@ -248,7 +135,7 @@ export default function Register() {
               </div>
               <div>
                 <button id="formSubmit" type="submit">
-                  <a href="/success">Register</a>
+                  Register
                 </button>
                 {/* <input  type="submit" value="Register" /> */}
               </div>

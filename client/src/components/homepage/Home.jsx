@@ -18,7 +18,7 @@ export default function Home() {
         <div class="navigation">
           <div class="container home">
             <div class="big-logo">
-              <form action="/get-phone" method="post">
+              <form action="/api/get-phone" method="post">
                 <h3>Oke-Ado Mega Region Axis</h3>
                 <p>Mobile Number Sample: 08035555800</p>
                 <input

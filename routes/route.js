@@ -5,6 +5,10 @@ require("dotenv").config({
 const express = require("express");
 
 const router = express.Router();
+const AWS = require('aws-sdk');
+const fs = require('fs');
+
+
 
 const pdf = require("html-pdf");
 
@@ -12,6 +16,13 @@ const pdfTemplate = require("../documents");
 const { uploadFile, getFileStream } = require("../s3bucket");
 
 const path = require("path");
+
+const s3 = new AWS.S3({
+  AWS_SDK_LOAD_CONFIG: 1,
+  region: "us-east-2",
+  accessKeyId: "AKIASJKPO373UCQOEC4V",
+  secretAccessKey: "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",
+})
 
 const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
@@ -46,11 +57,17 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   }
   database = client.db("Mfm_Attendance");
 
-  // router.get("/", (req, res) => {
-  //   res.json({
-  //     name: "Opeyemi",
-  //   });
-  // });
+  router.get("/", (req, res) => {
+    database.collection("MfmRegistration").find().sort({
+      "createdAt": -1
+    }).toArray((err, registration) => {
+      res.json({
+        "isLogin": true,
+        "query": req.query,
+        "registers": registration
+      })
+    })
+  });
 
   router.post("/get-phone", (req, res) => {
     const phone = req.body.phone;
@@ -68,45 +85,46 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   // })
 
   router.post("/register", (req, res, next) => {
-    const name = req.body.firstName + " " + req.body.lastName;
+    const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
     console.log(req.body.phone)
 
-    if (req.body.phone) {
-    pdf
-      .create(pdfTemplate(data), {})
-      .toFile(`${path.join(__dirname, 'pdfdocuments/')}${req.body.phone}.pdf`, async (err) => {
-        if (err) {
-          res.send(Promise.reject());
+    pdf.create(pdfTemplate(data)).toStream( async function (err, stream) {
+      stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
+      const params = {
+        Bucket: "icon-path-bucket",
+        Body: stream,
+        Key: req.body.phone,
+        contentType: "application/pdf"
+      }
+
+      await s3.upload(params, (err, data) => {
+        if (data) {
+          database.collection("MfmRegistration").insertOne(
+            {
+              firstName: req.body.fName,
+              lastName: req.body.lName,
+              email: req.body.email,
+              phone: req.body.phone,
+              address: req.body.address,
+              date: req.body.date,
+              gender: req.body.gender,
+              maritalStatus: req.body.marital_status,
+              position: req.body.position,
+              mode: req.body.mode,
+              region: req.body.region,
+              filePath: `/api/download/${data.key}`,
+              program: req.body.program,
+            },
+            (err, data) => {
+              res.redirect(`/success?message=${req.body.phone}`);
+            }
+          );
+        } else {
+          console.log("This is the Response", err, "data", data)
         }
-        res.send(Promise.resolve());
-
-        const result = await uploadFile(`${path.join(__dirname, 'pdfdocuments/')}${req.body.phone}.pdf`);
-        console.log(result.Location)
-
-        database.collection("MfmRegistration").insertOne(
-          {
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            phone: req.body.phone,
-            address: req.body.address,
-            date: req.body.date,
-            gender: req.body.gender,
-            maritalStatus: req.body.maritalStatus,
-            position: req.body.position,
-            mode: req.body.mode, 
-            region: req.body.region,
-            filePath: `/download/${result.key}`,
-            program: req.body.program,
-          },
-          (err, data) => {
-            // res.redirect("/success?message=registered");
-          }
-        );
-
       });
-    }
+    });
   });
 
   router.get("/download/:phone", (req, res) => {
@@ -114,13 +132,13 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
     console.log(key)
 
-    const readStream = getFileStream(`${req.params.phone}.pdf`);
+    const readStream = getFileStream(`${req.params.phone}`);
 
     res.attachment(key);
     readStream.pipe(res);
   });
 
-  router.get("/logout", (req, res) => { 
+  router.get("/logout", (req, res) => {
     req.session = null;
     res.redirect("/");
   });

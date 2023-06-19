@@ -84,13 +84,13 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   //     })
   // })
 
-  router.post("/register", async (req, res, next) => {
+  router.post("/register", async (req, res) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
     console.log(req.body.phone)
 
     await pdf.create(pdfTemplate(data)).toStream(async function (err, stream) {
-      await stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
+      // await stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
       const params = {
         Bucket: "icon-path-bucket",
         Body: stream,
@@ -98,7 +98,9 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
         contentType: "application/pdf"
       }
 
-      await s3.upload(params, (err, data) => {
+      await // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
+      // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.
+      s3.upload(params, (err, data) => {
         if (data) {
           database.collection("MfmRegistration").insertOne(
             {
@@ -128,13 +130,13 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   });
 
   router.get("/download/:phone", (req, res) => {
-    const key = path.join(__dirname, 'pdfdocuments/') + req.params.phone + ".pdf";
+    // const key = path.join(__dirname, 'pdfdocuments/') + req.params.phone + ".pdf";
 
-    console.log(key)
+    // console.log(key)
 
     const readStream = getFileStream(`${req.params.phone}`);
 
-    res.attachment(key);
+    res.attachment(`${req.params.phone}`);
     readStream.pipe(res);
   });
 

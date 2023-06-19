@@ -85,11 +85,11 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   //     })
   // })
 
-  router.post("/register", async (req, res) => {
+  router.post("/register", (req, res) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
 
-    await pdf.create(pdfTemplate(data)).toStream(function (err, stream) {
+    pdf.create(pdfTemplate(data)).toStream(function (err, stream) {
       // await stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
       const params = {
         Bucket: "icon-path-bucket",
@@ -98,7 +98,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
         contentType: "application/pdf"
       }
 
-      console.log(params.Body)
+      console.log("loooooooooooonnnng body",params.Body)
 
       // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
       // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.

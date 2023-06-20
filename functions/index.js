@@ -1,3 +1,5 @@
+const functions = require('firebase-functions');
+
 require("dotenv").config({
     path: "../config_files/.env",
 });
@@ -48,7 +50,7 @@ if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging")
 
 // --------------------------deployment------------------------------
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 2109
 
 app.listen(PORT, () => {
     console.log("Server has started on port", PORT)

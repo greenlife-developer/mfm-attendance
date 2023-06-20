@@ -1,15 +1,11 @@
 require("dotenv").config({
-  path: "./config_files/.env",
+    path: "../config_files/.env",
 });
-
-
-
 
 const express = require("express");
 const path = require("path")
 
 const app = express();
-
 
 app.use(express.json());
 
@@ -23,7 +19,6 @@ app.use(
     })
 );
 
-
 const bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit: "10000mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -35,20 +30,20 @@ app.use(
     })
 );
 
-app.use('/api', require("./routes/route"));
+app.use('/api', require("../routes/route"));
 
 // --------------------------deployment------------------------------
 
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "staging") {
-  app.use(express.static(path.join(__dirname, 'client/build')));
+    app.use(express.static(path.join(__dirname, 'client/build')));
 
-  app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-  });
+    app.get('/*', function (req, res) {
+        res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    });
 } else {
-  app.get("/", (req, res) => {
-    res.send("API is running..");
-  });
+    app.get("/", (req, res) => {
+        res.send("API is running..");
+    });
 }
 
 // --------------------------deployment------------------------------
@@ -58,3 +53,6 @@ const PORT = process.env.PORT || 8080
 app.listen(PORT, () => {
     console.log("Server has started on port", PORT)
 })
+
+
+exports.app = functions.https.onRequest(app);

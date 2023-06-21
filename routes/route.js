@@ -88,7 +88,9 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   router.post("/register", (req, res) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
-    const pdfFile = path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`)
+    const pdfFile = path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
+
+    console.log(pdfFile);
 
     pdf.create(pdfTemplate(req.body), {}).toFile(pdfFile, (err) => {
       if (err) {

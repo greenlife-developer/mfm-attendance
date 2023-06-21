@@ -88,28 +88,57 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   router.post("/register", (req, res) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
-    const pdfFile = path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
 
-    console.log(pdfFile);
+    // const fs = require('fs');
+    // const axios = require('axios');
+    // const FormData = require('form-data');
+    // const Mustache = require('mustache');
 
-    pdf.create(pdfTemplate(req.body), {}).toFile(pdfFile, (err) => {
+    // const data = {
+    //   invoiceNumber: "#12345"
+    // }
+
+    // const generation = {
+    //   html: 'template.html',
+    // };
+
+    // const template = fs.readFileSync('./template.html', { encoding: 'utf8' });
+    // const filledTemplate = Mustache.render(template, data);
+
+    // const body = new FormData();
+    // body.append('template.html', template, { filename: "template.html" });
+    // body.append('template.html', filledTemplate, { filename: "template.html" });
+    // body.append('generation', JSON.stringify(generation));
+
+    // (async () => {
+    //   const response = await axios.post('http://localhost:5000/process', body, {
+    //     headers: body.getHeaders(),
+    //     responseType: 'stream',
+    //   });
+    //   await response.data.pipe(fs.createWriteStream('invoice.pdf'));
+    // })();
+
+    pdf.create(pdfTemplate(data), {}).toFile(path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`), (err) => {
       if (err) {
         return console.log('error');
       }
-      // res.send(Promise.resolve())
+      // Promise.resolve()
+
+      const pdfFile = path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
+
+      const fileData = fs.readFileSync(pdfFile);
+
+
       const params = {
         Bucket: "icon-path-bucket",
-        Body: pdfFile,
+        Body: fileData,
         Key: req.body.phone,
+        ContentEncoding: "base64",
         contentType: "application/pdf"
       }
 
       console.log("loooooooooooonnnng body", params.Body)
 
-      // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
-      // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.
-      // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
-      // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.
       s3.upload(params, (err, data) => {
         if (data) {
           database.collection("MfmRegistration").insertOne(

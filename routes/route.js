@@ -88,15 +88,16 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   router.post("/register", (req, res) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
+    const pdfFile = path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`)
 
-    pdf.create(pdfTemplate(data), {}).toStream((err, file) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile(pdfFile, (err) => {
       if (err) {
-        return console.log('error', err);
+        return console.log('error');
       }
       // res.send(Promise.resolve())
       const params = {
         Bucket: "icon-path-bucket",
-        Body: file,
+        Body: pdfFile,
         Key: req.body.phone,
         contentType: "application/pdf"
       }

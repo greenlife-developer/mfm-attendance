@@ -89,11 +89,11 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
 
-    pdf.create(pdfTemplate(data)).toStream((err, stream) => {
+    pdf.create(pdfTemplate(data)).toStream((err, file) => {
       // await stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
       const params = {
         Bucket: "icon-path-bucket",
-        Body: stream !== undefined ? stream : "",
+        Body: file !== undefined ? file : "",
         Key: req.body.phone,
         contentType: "application/pdf"
       }

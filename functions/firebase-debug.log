@@ -1,0 +1,74 @@
+[debug] [2023-06-21T06:06:58.710Z] ----------------------------------------------------------------------
+[debug] [2023-06-21T06:06:58.719Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\USER\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2023-06-21T06:06:58.722Z] CLI Version:   12.4.0
+[debug] [2023-06-21T06:06:58.724Z] Platform:      win32
+[debug] [2023-06-21T06:06:58.725Z] Node Version:  v18.12.1
+[debug] [2023-06-21T06:06:58.733Z] Time:          Wed Jun 21 2023 07:06:58 GMT+0100 (West Africa Standard Time)
+[debug] [2023-06-21T06:06:58.734Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-06-21T06:06:58.751Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-06-21T06:06:59.426Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-06-21T06:06:59.428Z] > authorizing via signed-in user (yemijoshua81@gmail.com)
+[debug] [2023-06-21T06:06:59.429Z] [iam] checking project mfm-attendance for permissions ["firebase.projects.get"]
+[debug] [2023-06-21T06:06:59.434Z] > refreshing access token with scopes: []
+[debug] [2023-06-21T06:06:59.440Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-06-21T06:06:59.441Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-06-21T06:07:00.056Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2023-06-21T06:07:00.057Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2023-06-21T06:07:00.104Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-06-21T06:07:00.104Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-06-21T06:07:00.152Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/mfm-attendance:testIamPermissions [none]
+[debug] [2023-06-21T06:07:00.152Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/mfm-attendance:testIamPermissions x-goog-quota-user=projects/mfm-attendance
+[debug] [2023-06-21T06:07:00.153Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mfm-attendance:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-06-21T06:07:01.343Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/mfm-attendance:testIamPermissions 200
+[debug] [2023-06-21T06:07:01.344Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/mfm-attendance:testIamPermissions {"permissions":["firebase.projects.get"]}
+[debug] [2023-06-21T06:07:01.348Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mfm-attendance [none]
+[debug] [2023-06-21T06:07:02.044Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mfm-attendance 200
+[debug] [2023-06-21T06:07:02.045Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mfm-attendance {"projectId":"mfm-attendance","projectNumber":"302958496848","displayName":"mfm-attendance","name":"projects/mfm-attendance","resources":{"hostingSite":"mfm-attendance","realtimeDatabaseInstance":"mfm-attendance-default-rtdb"},"state":"ACTIVE","etag":"1_2f474d69-832b-4cfc-adb1-21e565bc1f99"}
+[info] 
+[info] === Serving from 'C:\Users\USER\Desktop\Coding\mfm-attendance'...
+[info] 
+[debug] [2023-06-21T06:07:02.087Z] defaultcredentials: writing to file C:\Users\USER\AppData\Roaming\firebase\yemijoshua81_gmail_com_application_default_credentials.json
+[debug] [2023-06-21T06:07:02.111Z] Setting GAC to C:\Users\USER\AppData\Roaming\firebase\yemijoshua81_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\USER\\AppData\\Roaming\\firebase\\yemijoshua81_gmail_com_application_default_credentials.json"}}
+[debug] [2023-06-21T06:07:02.114Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/mfm-attendance/adminSdkConfig [none]
+[debug] [2023-06-21T06:07:02.758Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/mfm-attendance/adminSdkConfig 200
+[debug] [2023-06-21T06:07:02.759Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/mfm-attendance/adminSdkConfig {"projectId":"mfm-attendance","databaseURL":"https://mfm-attendance-default-rtdb.firebaseio.com","storageBucket":"mfm-attendance.appspot.com"}
+[info] i  functions: Watching "C:\Users\USER\Desktop\Coding\mfm-attendance\functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"C:\\Users\\USER\\Desktop\\Coding\\mfm-attendance\\functions\" for Cloud Functions..."}}
+[debug] [2023-06-21T06:07:02.921Z] Validating nodejs source
+[debug] [2023-06-21T06:07:11.570Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1401.0",
+    "axios": "^1.4.0",
+    "body-parser": "^1.20.2",
+    "cookie-session": "^2.0.0",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "file-saver": "^2.0.5",
+    "firebase-admin": "^11.8.0",
+    "firebase-functions": "^4.3.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0"
+  },
+  "private": true
+}
+[debug] [2023-06-21T06:07:11.574Z] Building nodejs source
+[debug] [2023-06-21T06:07:11.576Z] Failed to find version of module node: reached end of search path C:\Users\USER\Desktop\Coding\mfm-attendance\functions\node_modules
+[info] +  functions: Using node@18 from host. 
+[debug] [2023-06-21T06:07:11.598Z] Could not find functions.yaml. Must use http discovery
+[debug] [2023-06-21T06:07:11.651Z] Found firebase-functions binary at 'C:\Users\USER\Desktop\Coding\mfm-attendance\functions\node_modules\.bin\firebase-functions'

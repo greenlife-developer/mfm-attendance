@@ -10,7 +10,7 @@ const app = express();
 
 
 app.use(express.json());
-app.use(cors)
+app.use(cors());
 
 const expressSession = require("cookie-session");
 app.use(
@@ -21,7 +21,6 @@ app.use(
         saveUninitialized: true,
     })
 );
-
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.json({ limit: "10000mb" }));

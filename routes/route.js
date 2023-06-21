@@ -118,13 +118,13 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     //   await response.data.pipe(fs.createWriteStream('invoice.pdf'));
     // })();
 
-    pdf.create(pdfTemplate(data), {}).toFile(path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`), (err) => {
+    pdf.create(pdfTemplate(data), {}).toFile(path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`), async (err) => {
       if (err) {
         return console.log('error');
       }
       // Promise.resolve()
 
-      const pdfFile = path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
+      const pdfFile = await path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
 
       const fileData = fs.readFileSync(pdfFile);
 
@@ -139,7 +139,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
       console.log("loooooooooooonnnng body", params.Body)
 
-      s3.upload(params, (err, data) => {
+      await s3.upload(params, (err, data) => {
         if (data) {
           database.collection("MfmRegistration").insertOne(
             {

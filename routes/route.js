@@ -91,7 +91,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
     pdf.create(pdfTemplate(data), {}).toStream((err, file) => {
       if (err) {
-        return console.log('error');
+        return console.log('error', err);
       }
       // res.send(Promise.resolve())
       const params = {

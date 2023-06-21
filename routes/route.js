@@ -89,16 +89,19 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
 
-    pdf.create(pdfTemplate(data)).toStream((err, file) => {
-      // await stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
+    pdf.create(pdfTemplate(data), {}).toStream((err, file) => {
+      if (err) {
+        return console.log('error');
+      }
+      // res.send(Promise.resolve())
       const params = {
         Bucket: "icon-path-bucket",
-        Body: file !== undefined ? file : "",
+        Body: file,
         Key: req.body.phone,
         contentType: "application/pdf"
       }
 
-      console.log("loooooooooooonnnng body",params.Body)
+      console.log("loooooooooooonnnng body", params.Body)
 
       // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
       // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.
@@ -131,6 +134,49 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
         }
       });
     });
+
+    // pdf.create(pdfTemplate(data)).toStream((err, file) => {
+    //   // await stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
+    //   const params = {
+    //     Bucket: "icon-path-bucket",
+    //     Body: file !== undefined ? file : "",
+    //     Key: req.body.phone,
+    //     contentType: "application/pdf"
+    //   }
+
+    //   console.log("loooooooooooonnnng body", params.Body)
+
+    //   // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
+    //   // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.
+    //   // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
+    //   // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.
+    //   s3.upload(params, (err, data) => {
+    //     if (data) {
+    //       database.collection("MfmRegistration").insertOne(
+    //         {
+    //           firstName: req.body.fName,
+    //           lastName: req.body.lName,
+    //           email: req.body.email,
+    //           phone: req.body.phone,
+    //           address: req.body.address,
+    //           date: req.body.date,
+    //           gender: req.body.gender,
+    //           maritalStatus: req.body.marital_status,
+    //           position: req.body.position,
+    //           mode: req.body.mode,
+    //           region: req.body.region,
+    //           filePath: `/api/download/${data.key}`,
+    //           program: req.body.program,
+    //         },
+    //         (err, data) => {
+    //           res.redirect(`/success?message=${req.body.phone}`);
+    //         }
+    //       );
+    //     } else {
+    //       console.log("This is the Response", err, "data", data)
+    //     }
+    //   });
+    // });
   });
 
   router.get("/download/:phone", (req, res) => {

@@ -120,9 +120,9 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
     pdf.create(pdfTemplate(data), {}).toFile(path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`), async (err) => {
       if (err) {
-        return console.log('error');
+        return console.log('error', err);
       }
-      // Promise.resolve()
+      Promise.resolve()
 
       const pdfFile = await path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
 
@@ -178,10 +178,6 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
     //   console.log("loooooooooooonnnng body", params.Body)
 
-    //   // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
-    //   // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.
-    //   // S3 ManagedUpload with callbacks are not supported in AWS SDK for JavaScript (v3).
-    //   // Please convert to `await client.upload(params, options).promise()`, and re-run aws-sdk-js-codemod.
     //   s3.upload(params, (err, data) => {
     //     if (data) {
     //       database.collection("MfmRegistration").insertOne(

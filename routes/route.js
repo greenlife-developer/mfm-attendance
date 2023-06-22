@@ -9,6 +9,10 @@ const router = express.Router();
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
+const axios = require('axios');
+const FormData = require('form-data');
+const Mustache = require('mustache');
+
 
 
 const pdf = require("html-pdf");
@@ -89,83 +93,78 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
 
-    // const fs = require('fs');
-    // const axios = require('axios');
-    // const FormData = require('form-data');
-    // const Mustache = require('mustache');
+    const dataItem = {
+      invoiceNumber: "#12345"
+    }
 
-    // const data = {
-    //   invoiceNumber: "#12345"
-    // }
+    const generation = {
+      html: 'template.html',
+    };
 
-    // const generation = {
-    //   html: 'template.html',
-    // };
+    const template = fs.readFileSync('./template.html', { encoding: 'utf8' });
+    const filledTemplate = Mustache.render(template, data);
 
-    // const template = fs.readFileSync('./template.html', { encoding: 'utf8' });
-    // const filledTemplate = Mustache.render(template, data);
+    const body = new FormData();
+    body.append('template.html', template, { filename: "template.html" });
+    body.append('template.html', filledTemplate, { filename: "template.html" });
+    body.append('generation', JSON.stringify(generation));
 
-    // const body = new FormData();
-    // body.append('template.html', template, { filename: "template.html" });
-    // body.append('template.html', filledTemplate, { filename: "template.html" });
-    // body.append('generation', JSON.stringify(generation));
-
-    // (async () => {
-    //   const response = await axios.post('http://localhost:5000/process', body, {
-    //     headers: body.getHeaders(),
-    //     responseType: 'stream',
-    //   });
-    //   await response.data.pipe(fs.createWriteStream('invoice.pdf'));
-    // })();
-
-    pdf.create(pdfTemplate(data), {}).toFile(path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`), async (err) => {
-      if (err) {
-        return console.log('error', err);
-      }
-      Promise.resolve()
-
-      const pdfFile = await path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
-
-      const fileData = fs.readFileSync(pdfFile);
-
-
-      const params = {
-        Bucket: "icon-path-bucket",
-        Body: fileData,
-        Key: req.body.phone,
-        ContentEncoding: "base64",
-        contentType: "application/pdf"
-      }
-
-      console.log("loooooooooooonnnng body", params.Body)
-
-      await s3.upload(params, (err, data) => {
-        if (data) {
-          database.collection("MfmRegistration").insertOne(
-            {
-              firstName: req.body.fName,
-              lastName: req.body.lName,
-              email: req.body.email,
-              phone: req.body.phone,
-              address: req.body.address,
-              date: req.body.date,
-              gender: req.body.gender,
-              maritalStatus: req.body.marital_status,
-              position: req.body.position,
-              mode: req.body.mode,
-              region: req.body.region,
-              filePath: `/api/download/${data.key}`,
-              program: req.body.program,
-            },
-            (err, data) => {
-              res.redirect(`/success?message=${req.body.phone}`);
-            }
-          );
-        } else {
-          console.log("This is the Response", err, "data", data)
-        }
+    (async () => {
+      const response = await axios.post('http://localhost:5000/process', body, {
+        headers: body.getHeaders(),
+        responseType: 'stream',
       });
-    });
+      await response.data.pipe(fs.createWriteStream('invoice.pdf'));
+    })();
+
+    // pdf.create(pdfTemplate(data), {}).toFile(path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`), async (err) => {
+    //   if (err) {
+    //     return console.log('error', err);
+    //   }
+    //   Promise.resolve()
+
+    //   const pdfFile = await path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
+
+    //   const fileData = fs.readFileSync(pdfFile);
+
+
+    //   const params = {
+    //     Bucket: "icon-path-bucket",
+    //     Body: fileData,
+    //     Key: req.body.phone,
+    //     ContentEncoding: "base64",
+    //     contentType: "application/pdf"
+    //   }
+
+    //   console.log("loooooooooooonnnng body", params.Body)
+
+    //   await s3.upload(params, (err, data) => {
+    //     if (data) {
+    //       database.collection("MfmRegistration").insertOne(
+    //         {
+    //           firstName: req.body.fName,
+    //           lastName: req.body.lName,
+    //           email: req.body.email,
+    //           phone: req.body.phone,
+    //           address: req.body.address,
+    //           date: req.body.date,
+    //           gender: req.body.gender,
+    //           maritalStatus: req.body.marital_status,
+    //           position: req.body.position,
+    //           mode: req.body.mode,
+    //           region: req.body.region,
+    //           filePath: `/api/download/${data.key}`,
+    //           program: req.body.program,
+    //         },
+    //         (err, data) => {
+    //           res.redirect(`/success?message=${req.body.phone}`);
+    //         }
+    //       );
+    //     } else {
+    //       console.log("This is the Response", err, "data", data)
+    //     }
+    //   });
+    // });
 
     // pdf.create(pdfTemplate(data)).toStream((err, file) => {
     //   // await stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));

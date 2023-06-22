@@ -25,7 +25,7 @@
   "homepage": "https://github.com/greenlife-developer/store#readme",
   "dependencies": {
     "aws-sdk": "^2.1399.0",
-    "axios": "^1.2.3",
+    "axios": "^1.4.0",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cookie-session": "^2.0.0",
@@ -36,8 +36,10 @@
     "express-promise-router": "^4.1.1",
     "express-session": "^1.17.3",
     "file-saver": "^2.0.5",
+    "form-data": "^4.0.0",
     "html-pdf": "^3.0.1",
     "mongodb": "^4.8.1",
+    "mustache": "^4.2.0",
     "nodemon": "^2.0.19",
     "path": "^0.12.7"
   }

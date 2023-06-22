@@ -117,20 +117,24 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     // Finalize the PDF
     doc.end();
 
-    stream.on('finish', async() => {
+    stream.on('finish', () => {
       console.log('PDF created successfully.');
+
+      const fileData = fs.readFileSync(`${req.body.phone}.pdf`);
       const params = {
         Bucket: "icon-path-bucket",
-        Body: stream,
+        Body: fileData,
         Key: req.body.phone,
         ContentEncoding: "base64",
         contentType: "application/pdf"
       }
 
-      console.log("loooooooooooonnnng body", params.Body)
+      // console.log("loooooooooooonnnng body", params.Body)
 
-      await s3.upload(params, (err, data) => {
-        if (data) {
+      s3.upload(params, function (err, data) {
+        if (err) {
+          console.log('Error uploading file:', err);
+        } else {
           database.collection("MfmRegistration").insertOne(
             {
               firstName: req.body.fName,
@@ -151,15 +155,14 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
               res.redirect(`/success?message=${req.body.phone}`);
             }
           );
-        } else {
-          console.log("This is the Response", err, "data", data)
         }
       });
+
     });
 
-    // stream.on('error', (err) => {
-    //   console.log('Error creating PDF:', err);
-    // });
+    stream.on('error', (err) => {
+      console.log('Error creating PDF:', err);
+    });
 
 
     // const dataItem = {

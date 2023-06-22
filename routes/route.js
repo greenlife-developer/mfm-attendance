@@ -8,6 +8,7 @@ const express = require("express");
 const router = express.Router();
 const AWS = require('aws-sdk');
 const fs = require('fs');
+const PDFDocument = require('pdfkit');
 
 const axios = require('axios');
 const FormData = require('form-data');
@@ -93,29 +94,97 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
 
-    const dataItem = {
-      invoiceNumber: "#12345"
-    }
+    // Create a new PDF document
+    const doc = new PDFDocument();
 
-    const generation = {
-      html: 'template.html',
-    };
+    // Set up stream to write the PDF data
+    const stream = fs.createWriteStream(`${req.body.phone}.pdf`);
 
-    const template = fs.readFileSync('./template.html', { encoding: 'utf8' });
-    const filledTemplate = Mustache.render(template, data);
+    // Pipe the PDF document to the stream
+    doc.pipe(stream);
 
-    const body = new FormData();
-    body.append('template.html', template, { filename: "template.html" });
-    body.append('template.html', filledTemplate, { filename: "template.html" });
-    body.append('generation', JSON.stringify(generation));
-
-    (async () => {
-      const response = await axios.post('http://localhost:5000/process', body, {
-        headers: body.getHeaders(),
-        responseType: 'stream',
+    // Parse and render the HTML content
+    doc
+      .font('Helvetica') // Set the font
+      .fontSize(12) // Set the base font size
+      .text(pdfTemplate(data), {
+        align: 'justify',
+        lineGap: 10,
+        // ... other text options
+        // Add more styling as needed
       });
-      await response.data.pipe(fs.createWriteStream('invoice.pdf'));
-    })();
+
+    // Finalize the PDF
+    doc.end();
+
+    stream.on('finish', async() => {
+      console.log('PDF created successfully.');
+      const params = {
+        Bucket: "icon-path-bucket",
+        Body: stream,
+        Key: req.body.phone,
+        ContentEncoding: "base64",
+        contentType: "application/pdf"
+      }
+
+      console.log("loooooooooooonnnng body", params.Body)
+
+      await s3.upload(params, (err, data) => {
+        if (data) {
+          database.collection("MfmRegistration").insertOne(
+            {
+              firstName: req.body.fName,
+              lastName: req.body.lName,
+              email: req.body.email,
+              phone: req.body.phone,
+              address: req.body.address,
+              date: req.body.date,
+              gender: req.body.gender,
+              maritalStatus: req.body.marital_status,
+              position: req.body.position,
+              mode: req.body.mode,
+              region: req.body.region,
+              filePath: `/api/download/${data.key}`,
+              program: req.body.program,
+            },
+            (err, data) => {
+              res.redirect(`/success?message=${req.body.phone}`);
+            }
+          );
+        } else {
+          console.log("This is the Response", err, "data", data)
+        }
+      });
+    });
+
+    // stream.on('error', (err) => {
+    //   console.log('Error creating PDF:', err);
+    // });
+
+
+    // const dataItem = {
+    //   invoiceNumber: "#12345"
+    // }
+
+    // const generation = {
+    //   html: 'template.html',
+    // };
+
+    // const template = fs.readFileSync('./template.html', { encoding: 'utf8' });
+    // const filledTemplate = Mustache.render(template, data);
+
+    // const body = new FormData();
+    // body.append('template.html', template, { filename: "template.html" });
+    // body.append('template.html', filledTemplate, { filename: "template.html" });
+    // body.append('generation', JSON.stringify(generation));
+
+    // (async () => {
+    //   const response = await axios.post('http://localhost:5000/process', body, {
+    //     headers: body.getHeaders(),
+    //     responseType: 'stream',
+    //   });
+    //   await response.data.pipe(fs.createWriteStream('invoice.pdf'));
+    // })();
 
     // pdf.create(pdfTemplate(data), {}).toFile(path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`), async (err) => {
     //   if (err) {

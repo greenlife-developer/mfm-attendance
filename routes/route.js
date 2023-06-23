@@ -10,7 +10,6 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 
 const puppeteer = require('puppeteer');
-const chromium = require('chrome-aws-lambda');
 
 
 
@@ -97,12 +96,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
       //   executablePath: 'google-chrome-stable',
       //   args: ['--disable-gpu', '--single-process', '--no-zygote', '--no-sandbox'],
       // });
-      browser = await chromium.puppeteer.launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
-        headless: chromium.headless,
-      });
+      browser = await puppeteer.launch({ args: ['--no-sandbox'] });
 
 
       const page = await browser.newPage();

@@ -93,19 +93,15 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const data = { ...req.body, name };
 
     try {
-      // Launch a headless Chrome browser
       const browser = await puppeteer.launch({
         headless: "new",
         args: ['--no-sandbox'],
       });
   
-      // Create a new page
       const page = await browser.newPage();
   
-      // Set the HTML content of the page
       await page.setContent(pdfTemplate(data));
   
-      // Generate the PDF
       await page.pdf({ path: `${req.body.phone}.pdf` });
   
       console.log('PDF created successfully:', `${req.body.phone}.pdf`);

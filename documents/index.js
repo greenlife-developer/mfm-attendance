@@ -126,7 +126,7 @@ module.exports = ({ name, phone, region, position, date }) => {
    <body>
        <div class="invoice-box">
            <div class="logo">
-             <img src="../public/images/logo" alt="">
+             <img src="https://i.ibb.co/bHwTXgV/logo.png" alt="">
            </div><br>
            <div class="church-name">
                <h1>

@@ -10,9 +10,7 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 
-const axios = require('axios');
-const FormData = require('form-data');
-const Mustache = require('mustache');
+const puppeteer = require('puppeteer');
 
 
 
@@ -90,34 +88,25 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   //     })
   // })
 
-  router.post("/register", (req, res) => {
+  router.post("/register", async(req, res) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
 
-    // Create a new PDF document
-    const doc = new PDFDocument();
+    try {
+      // Launch a headless Chrome browser
+      const browser = await puppeteer.launch();
+  
+      // Create a new page
+      const page = await browser.newPage();
+  
+      // Set the HTML content of the page
+      await page.setContent(pdfTemplate(data));
+  
+      // Generate the PDF
+      await page.pdf({ path: `${req.body.phone}.pdf` });
+  
+      console.log('PDF created successfully:', `${req.body.phone}.pdf`);
 
-    // Set up stream to write the PDF data
-    const stream = fs.createWriteStream(`${req.body.phone}.pdf`);
-
-    // Pipe the PDF document to the stream
-    doc.pipe(stream);
-
-    // Parse and render the HTML content
-    doc
-      .font('Helvetica') // Set the font
-      .fontSize(12) // Set the base font size
-      .text(pdfTemplate(data), {
-        align: 'justify',
-        lineGap: 10,
-        // ... other text options
-        // Add more styling as needed
-      });
-
-    // Finalize the PDF
-    doc.end();
-
-    stream.on('finish', () => {
       console.log('PDF created successfully.');
 
       const fileData = fs.readFileSync(`${req.body.phone}.pdf`);
@@ -157,131 +146,16 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
           );
         }
       });
+  
+      // Close the browser
+      await browser.close();
+    } catch (err) {
+      console.error('Error generating PDF:', err);
+    }
 
-    });
-
-    stream.on('error', (err) => {
-      console.log('Error creating PDF:', err);
-    });
-
-
-    // const dataItem = {
-    //   invoiceNumber: "#12345"
-    // }
-
-    // const generation = {
-    //   html: 'template.html',
-    // };
-
-    // const template = fs.readFileSync('./template.html', { encoding: 'utf8' });
-    // const filledTemplate = Mustache.render(template, data);
-
-    // const body = new FormData();
-    // body.append('template.html', template, { filename: "template.html" });
-    // body.append('template.html', filledTemplate, { filename: "template.html" });
-    // body.append('generation', JSON.stringify(generation));
-
-    // (async () => {
-    //   const response = await axios.post('http://localhost:5000/process', body, {
-    //     headers: body.getHeaders(),
-    //     responseType: 'stream',
-    //   });
-    //   await response.data.pipe(fs.createWriteStream('invoice.pdf'));
-    // })();
-
-    // pdf.create(pdfTemplate(data), {}).toFile(path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`), async (err) => {
-    //   if (err) {
-    //     return console.log('error', err);
-    //   }
-    //   Promise.resolve()
-
-    //   const pdfFile = await path.join(__dirname, `pdfdocuments/${req.body.phone}.pdf`);
-
-    //   const fileData = fs.readFileSync(pdfFile);
-
-
-    //   const params = {
-    //     Bucket: "icon-path-bucket",
-    //     Body: fileData,
-    //     Key: req.body.phone,
-    //     ContentEncoding: "base64",
-    //     contentType: "application/pdf"
-    //   }
-
-    //   console.log("loooooooooooonnnng body", params.Body)
-
-    //   await s3.upload(params, (err, data) => {
-    //     if (data) {
-    //       database.collection("MfmRegistration").insertOne(
-    //         {
-    //           firstName: req.body.fName,
-    //           lastName: req.body.lName,
-    //           email: req.body.email,
-    //           phone: req.body.phone,
-    //           address: req.body.address,
-    //           date: req.body.date,
-    //           gender: req.body.gender,
-    //           maritalStatus: req.body.marital_status,
-    //           position: req.body.position,
-    //           mode: req.body.mode,
-    //           region: req.body.region,
-    //           filePath: `/api/download/${data.key}`,
-    //           program: req.body.program,
-    //         },
-    //         (err, data) => {
-    //           res.redirect(`/success?message=${req.body.phone}`);
-    //         }
-    //       );
-    //     } else {
-    //       console.log("This is the Response", err, "data", data)
-    //     }
-    //   });
-    // });
-
-    // pdf.create(pdfTemplate(data)).toStream((err, file) => {
-    //   // await stream.pipe(fs.createWriteStream(`${req.body.phone}.pdf`));
-    //   const params = {
-    //     Bucket: "icon-path-bucket",
-    //     Body: file !== undefined ? file : "",
-    //     Key: req.body.phone,
-    //     contentType: "application/pdf"
-    //   }
-
-    //   console.log("loooooooooooonnnng body", params.Body)
-
-    //   s3.upload(params, (err, data) => {
-    //     if (data) {
-    //       database.collection("MfmRegistration").insertOne(
-    //         {
-    //           firstName: req.body.fName,
-    //           lastName: req.body.lName,
-    //           email: req.body.email,
-    //           phone: req.body.phone,
-    //           address: req.body.address,
-    //           date: req.body.date,
-    //           gender: req.body.gender,
-    //           maritalStatus: req.body.marital_status,
-    //           position: req.body.position,
-    //           mode: req.body.mode,
-    //           region: req.body.region,
-    //           filePath: `/api/download/${data.key}`,
-    //           program: req.body.program,
-    //         },
-    //         (err, data) => {
-    //           res.redirect(`/success?message=${req.body.phone}`);
-    //         }
-    //       );
-    //     } else {
-    //       console.log("This is the Response", err, "data", data)
-    //     }
-    //   });
-    // });
   });
 
   router.get("/download/:phone", (req, res) => {
-    // const key = path.join(__dirname, 'pdfdocuments/') + req.params.phone + ".pdf";
-
-    // console.log(key)
 
     const readStream = getFileStream(`${req.params.phone}`);
 

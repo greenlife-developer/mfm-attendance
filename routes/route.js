@@ -86,7 +86,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   //     })
   // })
 
-  router.post("/register", async(req, res) => {
+  router.post("/register", async (req, res) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
     let browser = null
@@ -103,14 +103,14 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
         executablePath: await chromium.executablePath,
         headless: chromium.headless,
       });
-  
-  
+
+
       const page = await browser.newPage();
-  
+
       await page.setContent(pdfTemplate(data));
-  
+
       await page.pdf({ path: `${req.body.phone}.pdf` });
-  
+
       console.log('PDF created successfully:', `${req.body.phone}.pdf`);
 
       console.log('PDF created successfully.');
@@ -152,11 +152,16 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
           );
         }
       });
-  
+
       // Close the browser
       await browser.close();
     } catch (err) {
       console.error('Error generating PDF:', err);
+    } finally {
+      // Close the browser
+      if (browser !== null) {
+        await browser.close();
+      }
     }
 
   });

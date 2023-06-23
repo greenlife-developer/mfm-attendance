@@ -98,10 +98,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
       //   args: ['--disable-gpu', '--single-process', '--no-zygote', '--no-sandbox'],
       // });
       browser = await puppeteer.launch({
-        args: ['--no-sandbox'], 
-        env: {
-          PUPPETEER_CACHE_DIR: cacheDir,
-        },
+        args: ['--no-sandbox'],
       });
 
 
@@ -155,13 +152,18 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
 
       // Close the browser
       await browser.close();
+
     } catch (err) {
+
       console.error('Error generating PDF:', err);
+
     } finally {
+
       // Close the browser
       if (browser !== null) {
         await browser.close();
       }
+      
     }
 
   });

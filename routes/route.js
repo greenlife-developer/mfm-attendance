@@ -96,7 +96,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
       // Launch a headless Chrome browser
       const browser = await puppeteer.launch({
         headless: "new",
-        ignoreDefaultArgs: ['--disable-extensions'],
+        args: ['--no-sandbox'],
       });
   
       // Create a new page

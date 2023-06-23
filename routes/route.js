@@ -89,6 +89,7 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
     let browser = null
+    const cacheDir = path.join(__dirname, '.cache');
 
     try {
       // const browser = await puppeteer.launch({
@@ -96,7 +97,12 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
       //   executablePath: 'google-chrome-stable',
       //   args: ['--disable-gpu', '--single-process', '--no-zygote', '--no-sandbox'],
       // });
-      browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+      browser = await puppeteer.launch({
+        args: ['--no-sandbox'], 
+        env: {
+          PUPPETEER_CACHE_DIR: cacheDir,
+        },
+      });
 
 
       const page = await browser.newPage();

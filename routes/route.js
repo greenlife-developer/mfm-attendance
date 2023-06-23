@@ -8,13 +8,10 @@ const express = require("express");
 const router = express.Router();
 const AWS = require('aws-sdk');
 const fs = require('fs');
-const PDFDocument = require('pdfkit');
 
 const puppeteer = require('puppeteer');
 
 
-
-const pdf = require("html-pdf");
 
 const pdfTemplate = require("../documents");
 const { uploadFile, getFileStream } = require("../s3bucket");

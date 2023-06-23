@@ -10,6 +10,7 @@ const AWS = require('aws-sdk');
 const fs = require('fs');
 
 const puppeteer = require('puppeteer');
+const chromium = require('chrome-aws-lambda');
 
 
 
@@ -88,13 +89,21 @@ mongoClient.connect(db, { useUnifiedTopology: true }, function (error, client) {
   router.post("/register", async(req, res) => {
     const name = req.body.fName + " " + req.body.lName;
     const data = { ...req.body, name };
+    let browser = null
 
     try {
-      const browser = await puppeteer.launch({
-        headless: "new",
-        executablePath: 'google-chrome-stable',
-        args: ['--disable-gpu', '--single-process', '--no-zygote', '--no-sandbox'],
+      // const browser = await puppeteer.launch({
+      //   headless: "new",
+      //   executablePath: 'google-chrome-stable',
+      //   args: ['--disable-gpu', '--single-process', '--no-zygote', '--no-sandbox'],
+      // });
+      browser = await chromium.puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath,
+        headless: chromium.headless,
       });
+  
   
       const page = await browser.newPage();
   

@@ -88,7 +88,13 @@ export default function Register() {
                     </option>
                     <option value="pastor">Pastor</option>
                     <option value="overseer">Overseer</option>
+                    <option value="mega-overseer">Mega Regional Overseer</option>
+                    <option value="region-overseer">Regional Overseer</option>
                     <option value="minister">Ministers</option>
+                    <option value="seniorzonalpastor">Senior Zonal Pastor</option>
+                    <option value="zonalpastor">Zonal Pastor</option>
+                    <option value="actingzonalpastor">Acting Zonal Pastor</option>
+                    <option value="branchpastor">Branch Pastor</option>
                     <option value="pastor's wife">Pastor's wife</option>
                     <option value="house leader">House Leader</option>
                     <option value="Worker">Worker</option>
@@ -112,7 +118,7 @@ export default function Register() {
                       SW35 OKE-ADO - Mega Region
                     </option>
                     <option value="SW34 ARAROMI">SW34 ARAROMI</option>
-                    <option value="SW64 OLORUNSOGO">SW64 OLORUNSOGO</option>
+                    <option value="SW64 OLORUNSOGO">SW62 OLORUNSOGO</option>
                     <option value="SW73 TOTAL GARDEN">SW73 TOTAL GARDEN</option>
                     <option value="SW86 RING ROAD">SW86 RING ROAD</option>
                     <option value="SW152 I.K DAIRO">SW152 I.K DAIRO</option>
@@ -129,7 +135,7 @@ export default function Register() {
                 <select class="style" name="program">
                   <option value="">Select Program to Attend</option>
                   <option value="RE-IGNITE RETREAT BY MRO">
-                    RE-IGNITE RETREAT BY MRO
+                    Solemn Meeting with the GO
                   </option>
                 </select>
               </div>

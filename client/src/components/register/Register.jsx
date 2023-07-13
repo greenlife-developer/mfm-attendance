@@ -83,7 +83,7 @@ export default function Register() {
                   {/* <label htmlFor="city">Position/Title</label> */}
                   <select class="style" name="position">
                     <option value="">Position/Title</option>
-                    <option value="Group/House Leader">
+                    <option value="group-house-leader">
                       Group/House Leader
                     </option>
                     <option value="pastor">Pastor</option>
@@ -91,12 +91,12 @@ export default function Register() {
                     <option value="mega-overseer">Mega Regional Overseer</option>
                     <option value="region-overseer">Regional Overseer</option>
                     <option value="minister">Ministers</option>
-                    <option value="seniorzonalpastor">Senior Zonal Pastor</option>
-                    <option value="zonalpastor">Zonal Pastor</option>
-                    <option value="actingzonalpastor">Acting Zonal Pastor</option>
-                    <option value="branchpastor">Branch Pastor</option>
-                    <option value="pastor's wife">Pastor's wife</option>
-                    <option value="house leader">House Leader</option>
+                    <option value="senior-zonal-pastor">Senior Zonal Pastor</option>
+                    <option value="zonal-pastor">Zonal Pastor</option>
+                    <option value="acting-zonal-pastor">Acting Zonal Pastor</option>
+                    <option value="branch-pastor">Branch Pastor</option>
+                    <option value="pastor's-wife">Pastor's wife</option>
+                    <option value="house-leader">House Leader</option>
                     <option value="Worker">Worker</option>
                   </select>
                 </div>

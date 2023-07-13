@@ -1,5 +1,5 @@
 
-module.exports = ({ name, phone, region, position, date }) => {
+module.exports = ({ name, phone, region, position, date, email, address, gender, maritalStatus, mode, program }) => {
 
     // const logo = require("../public/images/logo")
 
@@ -131,7 +131,7 @@ module.exports = ({ name, phone, region, position, date }) => {
            <div class="church-name">
                <h1>
                    MOUNTAIN OF FIRE AND MIRACLES MINISTRIES,<br>
-                   NEW IBADAN MEGA REGION
+                   Oke-Ado Mega Region
                </h1><br><br>
                <h1>SOLEMN ASSEMBLY WITH DR. DK OLUKOYA REGISTRATION CONFIRMATION SLIP</h1>
            </div><br><br>

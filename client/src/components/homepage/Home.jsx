@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import logo from "../images/logo.png";
+import { Link } from "react-router-dom";
 import "aos/dist/aos.css";
 import "./style.css";
 
 export default function Home() {
-
   const handlePhoneChange = (e) => {
     console.log(e.target.value);
     const phone = e.target.value;
@@ -20,7 +20,10 @@ export default function Home() {
             <div class="big-logo">
               <form action="/api/get-phone" method="post">
                 <h3>Oke-Ado Mega Region Axis</h3>
-                <p>Mobile Number Sample: 08035555800</p>
+                <p>
+                  Mobile Number Sample: 08035555800{" "}
+                  <Link to="/registrations">See all registrations</Link>{" "}
+                </p>
                 <input
                   onChange={handlePhoneChange}
                   type="phone"

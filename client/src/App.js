@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/homepage/Home";
 import Success from "./components/homepage/Success";
 import Register from './components/register/Register';
+import Registrations from './components/Registrations';
 import Chat from './components/Chat';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/registrations" element={<Registrations />} />
           <Route path="/chat" element={<Chat />} />
         </Routes>
       </Router>
